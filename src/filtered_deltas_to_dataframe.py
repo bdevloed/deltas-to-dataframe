@@ -64,3 +64,82 @@ def collect_subject_stats(file_path, filters):
                         "file_name": filename,
                     }
                 )
+        else:
+            print(f"Warning: No inserts found in {filename}")
+
+    return subject_stats
+
+
+def process_directory(directory, filters):
+    if not os.path.isdir(directory):
+        print(f"Error: {directory} is not a valid directory.")
+        return
+
+    total_subject_stats = []
+    json_files_processed = 0
+
+    print("Processing delta files...\n" + "-" * 50)
+
+    for root, _, files in os.walk(directory):
+        print(f"Found {len(files)} files in {root}")
+        for file in files:
+            if file.endswith(".json"):
+                file_path = os.path.join(root, file)
+                subject_stats = collect_subject_stats(file_path, filters)
+                total_subject_stats.extend(subject_stats)
+                json_files_processed += 1
+    if json_files_processed == 0:
+        print(f"No delta files found in directory: {directory}")
+        return
+
+    df = pd.DataFrame(total_subject_stats)
+    # sort by timestamp, subject, predicate, object
+    df = df.sort_values(by=["timestamp", "subject", "predicate", "object"])
+
+    print("\nDataFrame\n" + "-" * 50)
+
+    print(f"Total rows: {len(df)}")
+
+    # Save the DataFrame to a CSV file in the specified directory
+    output_file = os.path.join(directory, "delta_dataframe.csv")
+    df.to_csv(output_file, index=False)
+    print(f"DataFrame saved to {output_file}")
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        description="Process delta files and create a DataFrame."
+    )
+    parser.add_argument("directory", help="Directory containing delta files")
+    parser.add_argument(
+        "-f",
+        "--filter",
+        action="append",
+        help=(
+            "Filter in the format 'key=value' where key can be subject, "
+            "predicate, object or their shorthand 's', 'p', 'o'."
+        ),
+    )
+
+    args = parser.parse_args()
+
+    filters = {}
+    key_mapping = {"s": "subject", "p": "predicate", "o": "object"}
+    if args.filter:
+        for f in args.filter:
+            try:
+                key, value = f.split("=")
+                key = key_mapping.get(
+                    key, key
+                )  # Map 's', 'p', 'o' to 'subject', 'predicate', 'object'
+                if key not in ["subject", "predicate", "object"]:
+                    raise ValueError("Invalid filter key")
+                filters[key] = value
+            except ValueError:
+                print(
+                    "Invalid filter format. Use 'key=value' "
+                    "where key can be subject, predicate, or object."
+                )
+                sys.exit(1)
+
+    process_directory(args.directory, filters)
