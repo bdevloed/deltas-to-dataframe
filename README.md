@@ -24,12 +24,14 @@ To set up the project, follow these steps:
 
 ## Usage
 
-To use the functionality provided by this project, you can run the `filtered_deltas_to_dataframe.py` script with the appropriate arguments. Make sure to provide the path to the delta files and any filters you wish to apply.
+To use the functionality provided by this project, you can run the `main.py` script with the appropriate arguments. Make sure to provide the path to the directory containing delta files and any filters you wish to apply.
 
 Example command:
 
 ```
-python src/filtered_deltas_to_dataframe.py --file_path path/to/delta_file.json --filters '{"key": "value"}'
+python src/main.py path/to/delta_directory --filters" '{"key": "value"}'"
+```
+
 ```
 
 ## Docker
@@ -38,22 +40,27 @@ To build and run the Docker image, use the following commands:
 
 1. Build the Docker image:
 
-   ```
-   docker build -t bdevloed/deltas-to-dataframe .
-   ```
+```
+
+docker build -t bdevloed/deltas-to-dataframe .
+
+```
 
 2. Run the Docker container:
 
-   ```
-   docker run bdevloed/deltas-to-dataframe
-   ```
+```
 
-   Mount the current directory to the container to access the delta files in the directory with the relative path `delta_directory`, e.g.:
+docker run bdevloed/deltas-to-dataframe
 
-   ```
+```
+
+Mount the current directory to the container to access the delta files in the directory with the relative path `delta_directory`, e.g.:
+
+```
+
     docker run --rm -v "$(pwd):/shared" -w /shared bdevloed/deltas-to-dataframe delta_directory -f 's=http://example.org/subject/s1'
 
-   ```
+```
 
 ## Output
 
@@ -72,3 +79,4 @@ Contributions are welcome! Please open an issue or submit a pull request for any
 ## License
 
 This project is licensed under the MIT License. See the LICENSE file for more details.
+```

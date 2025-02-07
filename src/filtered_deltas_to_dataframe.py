@@ -5,9 +5,10 @@ import re
 import pandas as pd
 import argparse
 
-# Regular expression to extract the datetime from filenames
-DATETIME_PATTERN = re.compile(r"(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z)")
-
+# Regular expression to match any ISO8601 datetime pattern
+DATETIME_PATTERN = re.compile(
+    r"(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})?)"
+)
 
 def extract_datetime(filename):
     """Extract datetime from filename using regex"""
@@ -72,7 +73,7 @@ def collect_subject_stats(file_path, filters):
 
 def process_directory(directory, filters):
     if not os.path.isdir(directory):
-        print(f"Error: {directory} is not a valid directory.")
+        print(f"Directory not found: {directory}")
         return
 
     total_subject_stats = []
@@ -81,13 +82,13 @@ def process_directory(directory, filters):
     print("Processing delta files...\n" + "-" * 50)
 
     for root, _, files in os.walk(directory):
-        print(f"Found {len(files)} files in {root}")
         for file in files:
             if file.endswith(".json"):
                 file_path = os.path.join(root, file)
                 subject_stats = collect_subject_stats(file_path, filters)
                 total_subject_stats.extend(subject_stats)
                 json_files_processed += 1
+
     if json_files_processed == 0:
         print(f"No delta files found in directory: {directory}")
         return
@@ -97,13 +98,13 @@ def process_directory(directory, filters):
     df = df.sort_values(by=["timestamp", "subject", "predicate", "object"])
 
     print("\nDataFrame\n" + "-" * 50)
-
     print(f"Total rows: {len(df)}")
 
     # Save the DataFrame to a CSV file in the specified directory
     output_file = os.path.join(directory, "delta_dataframe.csv")
     df.to_csv(output_file, index=False)
     print(f"DataFrame saved to {output_file}")
+    return df
 
 
 if __name__ == "__main__":
