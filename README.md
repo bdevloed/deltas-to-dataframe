@@ -32,8 +32,6 @@ Example command:
 python src/main.py path/to/delta_directory --filters" '{"key": "value"}'"
 ```
 
-```
-
 ## Docker
 
 To build and run the Docker image, use the following commands:
@@ -65,12 +63,12 @@ Mount the current directory to the container to access the delta files in the di
 ## Output
 
 a csv, e.g.:
-|timestamp               |operation|subject                      |predicate                                |object                              |file_name                                                               |
+|timestamp |operation|subject |predicate |object |file_name |
 |------------------------|---------|-----------------------------|-----------------------------------------|------------------------------------|------------------------------------------------------------------------|
-|2025-01-28T16:57:44.657Z|INSERT   |http://example.org/subject/s1|http://example.org/predicate/p1          |http://example.org/object/o1        |fe837410-dd98-11ef-86a2-979dcc8ba73e-delta-2025-01-28T16:57:44.657Z.json|
-|2025-01-28T16:57:44.657Z|INSERT   |http://example.org/subject/s1|http://mu.semte.ch/vocabularies/core/uuid|e94be4c0-aaaa-11ef-a972-0d005ce03818|fe837410-dd98-11ef-86a2-979dcc8ba73e-delta-2025-01-28T16:57:44.657Z.json|
-|2025-01-29T10:00:00.000Z|DELETE   |http://example.org/subject/s1|http://example.org/predicate/p1          |http://example.org/object/o1        |bbbbbbb-dd98-11ef-86a2-979dcc8ba73e-delta-2025-01-29T10:00:00.000Z.json |
-|2025-01-29T10:00:00.000Z|INSERT   |http://example.org/subject/s1|http://example.org/predicate/p1          |http://anotherexample.org/object/o5 |bbbbbbb-dd98-11ef-86a2-979dcc8ba73e-delta-2025-01-29T10:00:00.000Z.json |
+|2025-01-28T16:57:44.657Z|INSERT |http://example.org/subject/s1|http://example.org/predicate/p1 |http://example.org/object/o1 |fe837410-dd98-11ef-86a2-979dcc8ba73e-delta-2025-01-28T16:57:44.657Z.json|
+|2025-01-28T16:57:44.657Z|INSERT |http://example.org/subject/s1|http://mu.semte.ch/vocabularies/core/uuid|e94be4c0-aaaa-11ef-a972-0d005ce03818|fe837410-dd98-11ef-86a2-979dcc8ba73e-delta-2025-01-28T16:57:44.657Z.json|
+|2025-01-29T10:00:00.000Z|DELETE |http://example.org/subject/s1|http://example.org/predicate/p1 |http://example.org/object/o1 |bbbbbbb-dd98-11ef-86a2-979dcc8ba73e-delta-2025-01-29T10:00:00.000Z.json |
+|2025-01-29T10:00:00.000Z|INSERT |http://example.org/subject/s1|http://example.org/predicate/p1 |http://anotherexample.org/object/o5 |bbbbbbb-dd98-11ef-86a2-979dcc8ba73e-delta-2025-01-29T10:00:00.000Z.json |
 
 ## Contributing
 
@@ -79,4 +77,7 @@ Contributions are welcome! Please open an issue or submit a pull request for any
 ## License
 
 This project is licensed under the MIT License. See the LICENSE file for more details.
+
+```
+
 ```
