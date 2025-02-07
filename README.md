@@ -1,10 +1,10 @@
 # Deltas to DataFrame
 
-This project provides functionality to process [delta files](https://github.com/lblod/delta-tutorial) and convert them into a pandas DataFrame. It includes features for extracting timestamps from filenames and collecting subject statistics based on specified filters.
+This project provides functionality to process [delta files](https://github.com/lblod/delta-tutorial) and convert them into a pandas DataFrame. It includes features for extracting timestamps from filenames, collecting subject statistics based on specified filters, and generating heatmaps from the processed data.
 
 ## Overview
 
-The main logic for processing deltas is implemented in `src/filtered_deltas_to_dataframe.py`. This script allows users to extract relevant information from delta files, including insert and delete operations.
+The main logic for processing deltas is implemented in `src/filtered_deltas_to_dataframe.py`. This script allows users to extract relevant information from delta files, including insert and delete operations. The `src/generate_heatmaps.py` script provides functionality to generate heatmaps from the processed DataFrame.
 
 ## Installation
 
@@ -21,6 +21,45 @@ To set up the project, follow these steps:
    ```
    pip install -r requirements.txt
    ```
+
+## Usage
+
+To use the functionality provided by this project, you can run the main.py script with the appropriate arguments. Make sure to provide the path to the delta files and any filters you wish to apply.
+
+#### Processing Delta Files
+
+Example command to process delta files and create a DataFrame:
+
+```
+python src/main.py <directory> -f "key=value"
+```
+
+Generating Heatmaps
+Example command to generate heatmaps from the processed DataFrame:
+
+```
+python src/main.py <directory> --heatmap
+```
+
+Example command to generate heatmaps from a specified CSV file:
+
+```
+python src/main.py <directory> --heatmap --csv=filename.csv
+```
+
+Docker
+To run the application using Docker, you can use the following command:
+
+```
+docker run --rm -v "$(pwd):/shared" -w /shared bdevloed/deltas-to-dataframe --heatmap .
+```
+
+Make sure to replace <directory> with the actual path to your delta files and filename.csv with the path to your CSV file if applicable.
+
+When running via docker, this has te be a relative path to the directory containing the delta files because of how the volume is mounted in the container.
+
+License
+This project is licensed under the MIT License. See the LICENSE file for details.
 
 ## Usage
 
@@ -71,7 +110,3 @@ Contributions are welcome! Please open an issue or submit a pull request for any
 ## License
 
 This project is licensed under the MIT License. See the LICENSE file for more details.
-
-```
-
-```
