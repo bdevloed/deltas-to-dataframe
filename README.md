@@ -39,25 +39,19 @@ To build and run the Docker image, use the following commands:
 1. Build the Docker image:
 
 ```
-
 docker build -t bdevloed/deltas-to-dataframe .
-
 ```
 
 2. Run the Docker container:
 
 ```
-
 docker run bdevloed/deltas-to-dataframe
-
 ```
 
 Mount the current directory to the container to access the delta files in the directory with the relative path `delta_directory`, e.g.:
 
 ```
-
-    docker run --rm -v "$(pwd):/shared" -w /shared bdevloed/deltas-to-dataframe delta_directory -f 's=http://example.org/subject/s1'
-
+docker run --rm -v "$(pwd):/shared" -w /shared bdevloed/deltas-to-dataframe delta_directory -f 's=http://example.org/subject/s1'
 ```
 
 ## Output
